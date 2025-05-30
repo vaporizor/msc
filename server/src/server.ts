@@ -897,15 +897,19 @@ connection.onNotification('Export namespace', (fileInfo: UploadFileInfo) => {
 					continue;
 
 				if (variableRegExpRes[7] !== undefined) {
+					const isFinal = variableRegExpRes[3] && variableRegExpRes[3].trim() === 'final';
 					const variableInitialization: string = variableRegExpRes[7] + ' ' + lines.slice(j + 1, variableDeclarationEndLine + 1)
 						.map((value: string): string => value.trim())
 						.join(' ');
-					variableInitializationsLines.push(`@bypass /variable set ${namespaceName} ${variableRegExpRes[6]} ${variableInitialization}`);
-				}
-
+					if (isFinal)
+						variableDefinitionsLines.push(`@bypass /variable define ${namespaceName} ${variableRegExpRes[1]} ${variableInitialization}`);
+					else {
+						variableInitializationsLines.push(`@bypass /variable set ${namespaceName} ${variableRegExpRes[6]} ${variableInitialization}`);
+						variableDefinitionsLines.push(`@bypass /variable define ${namespaceName} ${variableRegExpRes[1]}`);
+					}
+				} else
+					variableDefinitionsLines.push(`@bypass /variable define ${namespaceName} ${variableRegExpRes[1]}`);
 				j = variableDeclarationEndLine;
-				variableDefinitionsLines.push(`@bypass /variable define ${namespaceName} ${variableRegExpRes[1]}`);
-
 			}
 		}
 
