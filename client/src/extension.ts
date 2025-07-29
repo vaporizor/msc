@@ -706,11 +706,11 @@ export function activate(context: ExtensionContext) {
 						namespaceFolderUri, `__init__.msc`, cache,
 						initLink => {
 							namespaceInfo.defineScript += '\n' + `# Namespace initialisation function from ${namespaceInfo.name}/__init__.msc` +
-								'\n' + `@bypass /function define ${namespaceInfo.name} wilexafixu()`;
-							importLines.push(`@bypass /script import function ${namespaceInfo.name} wilexafixu() ${initLink}`);
+								'\n' + `@bypass /function define ${namespaceInfo.name} wilexafixu(Player player)`;
+							importLines.push(`@bypass /script import function ${namespaceInfo.name} wilexafixu(Player player) ${initLink}`);
 							namespaceInfo.initializeScript += '\n\n' + '@player &7[&#20a0d0VSCode&7] &eExecuting namespace initialisation function.' +
-								'\n' + `@bypass /function execute ${namespaceInfo.name}::wilexafixu()` +
-								'\n' + `@bypass /function remove ${namespaceInfo.name} wilexafixu()`;
+								'\n' + `@bypass /function execute ${namespaceInfo.name}::wilexafixu(player)` +
+								'\n' + `@bypass /function remove ${namespaceInfo.name} wilexafixu(Player player)`;
 						}, incrementProgress, true
 					);
 
